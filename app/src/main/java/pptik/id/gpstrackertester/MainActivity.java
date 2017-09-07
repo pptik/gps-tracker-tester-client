@@ -37,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pptik.id.gpstrackertester.models.MyLocation;
 import pptik.id.gpstrackertester.models.Tracker;
+import pptik.id.gpstrackertester.services.LocationService;
 import pptik.id.gpstrackertester.utils.AnimationView;
 import pptik.id.gpstrackertester.utils.BroadcastManager;
 import pptik.id.gpstrackertester.utils.CommonAlerts;
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
         broadcastManager.subscribeToUi(this);
 
 
-        locService = new Intent(context, GetLocation.class);
+        locService = new Intent(context, LocationService.class);
         locService.putExtra(Constants.INTENT_LOCATION_WITH_STORING, false);
         startService(locService);
 
