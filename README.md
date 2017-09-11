@@ -41,7 +41,7 @@ Expected response :
   
   `AppID` : Flag testing, Diisi dengan angka `0` supaya bisa di track dengan aplikasi Tester
   
-* Jika daftar berhasil, test dengan aplikasi Tester. File `.apk` bisa didownload di tab `release` pada repo ini
+* Jika daftar berhasil, test dengan aplikasi Tester. File `.apk` bisa didownload di tab `release` pada repo ini. Jika GPS Tracker yang baru didaftarkan tidak muncul di aplikasi, berarti GPS belum mengirimkan data ke server. Jika GPS muncul dalam aplikasi, berarti GPS Tracker sudah bisa digunakan.
 
 * `HTTP POST` bisa menggunakan aplikasi `POSTMAN`
 
