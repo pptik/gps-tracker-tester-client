@@ -45,6 +45,6 @@ Expected response :
 
 * `HTTP POST` bisa menggunakan aplikasi `POSTMAN`
 
-* Contoh : ![alt text](https://raw.githubusercontent.com/pptik/gps-tracker-tester-client/master/00000001.PNG "Postman Example")
+* Contoh : ![alt text](https://raw.githubusercontent.com/pptik/gps-tracker-tester-client/master/00000002.PNG "Postman Example")
 
 * Sourcecode untuk backend-nya, bisa dilihat di : https://github.com/pptik/gps-tracker-tester-api
