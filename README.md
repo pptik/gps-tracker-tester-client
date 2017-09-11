@@ -37,8 +37,12 @@ Expected response :
   
   `SessionID` : Access Token/session id dari proses login
   
+  `Type` : Sementara tersedia dua type tracker berdasarkan peruntukannya, diisi dengan `Bus` atau `Angkot`
+  
   `AppID` : Flag testing, Diisi dengan angka `0` supaya bisa di track dengan aplikasi Tester
   
 * Jika daftar berhasil, test dengan aplikasi Tester. File `.apk` bisa didownload di tab `release` pada repo ini
 
 * `HTTP POST` bisa menggunakan aplikasi `POSTMAN`
+
+* Sourcecode untuk backend-nya, bisa dilihat di : https://github.com/pptik/gps-tracker-tester-api
