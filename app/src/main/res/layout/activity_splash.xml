@@ -35,7 +35,7 @@
         android:text="Memuat..."
         android:layout_alignParentBottom="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorPrimaryBold"
+        android:textColor="@color/colorPrimaryDark"
         />
 
 </RelativeLayout>

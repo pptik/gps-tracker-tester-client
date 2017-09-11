@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
 
         locService = new Intent(context, LocationService.class);
         locService.putExtra(Constants.INTENT_LOCATION_WITH_STORING, false);
-      //  startService(locService);
+        startService(locService);
 
         mProgressDialog = new ProgressDialog(context);
         markerClick = new MarkerClick(context, markerDetailLayout);
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
         mapController = mapset.getController();
         osmMarker = new OsmMarker(mapset);
         mapController.setZoom(19);
-        sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_sort, 24, R.color.colorAccent));
+        sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_sort, 24, R.color.white));
         sortFab.setOnClickListener(view -> doFab());
         markerAnimation = new OSMarkerAnimation();
         animationView = new AnimationView(context);
@@ -168,13 +169,13 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
         if(fabState == FAB_STATE_CLOSE){
             if(sortLayout.getVisibility() == View.GONE) sortLayout.setVisibility(View.VISIBLE);
             fabState = FAB_STATE_OPEN;
-            sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_close, 24, R.color.colorAccent));
+            sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_close, 24, R.color.white));
             //   setListView();
         }else {
             if(sortLayout.getVisibility() == View.VISIBLE) sortLayout.setVisibility(View.GONE);
             if(markerDetailLayout.getVisibility() == View.VISIBLE) markerDetailLayout.startAnimation(slideDown);
             fabState = FAB_STATE_CLOSE;
-            sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_sort, 24, R.color.colorAccent));
+            sortFab.setImageDrawable(CustomDrawable.create(context, GoogleMaterial.Icon.gmd_sort, 24, R.color.white));
         }
     }
 
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
                     isMessageReceived = true;
                     mProgressDialog.dismiss();
                 }
-             //   getMessage(message);
+                getMessage(message);
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
                 }
        //     }else {
                 // success == false
-                CommonAlerts.commonError(context, "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
+              //  CommonAlerts.commonError(context, "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
          //   }
 
         } catch (JSONException e) {
@@ -289,7 +290,9 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
     }
 
     private void animateToSelected(){
-        if(checkedState == -1) mapController.animateTo(markerMyLocation.getPosition());
+        if(checkedState == -1) {
+            //mapController.animateTo(markerMyLocation.getPosition());
+        }
         else mapController.animateTo(markers[checkedState].getPosition());
     }
 
@@ -314,7 +317,11 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mqConsumer.stop();
+        try {
+            mqConsumer.stop();
+        }catch (NetworkOnMainThreadException e){
+            mqConsumer.stop();
+        }
         broadcastManager.unSubscribeToUi();
         stopService(locService);
     }
@@ -351,14 +358,16 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
 
 
                 } else {
-                    GeoPoint currPoint = new GeoPoint(myLocationObject.getMyLatitude(), myLocationObject.getMyLongitude());
-                    markerMyLocation.setRotation((float) MarkerBearing.bearing(markerMyLocation.getPosition().getLatitude(),
-                            markerMyLocation.getPosition().getLongitude(), currPoint.getLatitude(), currPoint.getLongitude()));
-                    //  if (isTracked) mapController.animateTo(markerMyLocation.getPosition());
-                    markerAnimation.animate(mapset, markerMyLocation, currPoint, 1500);
-
-
-                    mapset.invalidate();
+                    if(markerMyLocation == null){
+                        markerMyLocation = osmMarker.add(myLocationObject);
+                    }else {
+                        GeoPoint currPoint = new GeoPoint(myLocationObject.getMyLatitude(), myLocationObject.getMyLongitude());
+                        markerMyLocation.setRotation((float) MarkerBearing.bearing(markerMyLocation.getPosition().getLatitude(),
+                                markerMyLocation.getPosition().getLongitude(), currPoint.getLatitude(), currPoint.getLongitude()));
+                        //  if (isTracked) mapController.animateTo(markerMyLocation.getPosition());
+                        markerAnimation.animate(mapset, markerMyLocation, currPoint, 1500);
+                        mapset.invalidate();
+                    }
                 }
 
                 break;

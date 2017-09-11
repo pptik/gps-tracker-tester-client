@@ -32,7 +32,7 @@
                 android:text="Ikuti : "
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/lynchLight"
 
                 android:layout_gravity="right"
                 />

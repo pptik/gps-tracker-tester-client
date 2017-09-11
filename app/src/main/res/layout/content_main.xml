@@ -30,6 +30,7 @@
             android:id="@+id/help"
             />
         <RelativeLayout
+            android:visibility="gone"
             android:layout_below="@id/help"
             android:id="@+id/myLocLay"
             android:background="@android:color/white"
