@@ -42,4 +42,6 @@
     <color name="reportLevel3">#ef9917</color>
     <color name="reportLevel4">#F9690E</color>
     <color name="reportLevel5">#8F1D21</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

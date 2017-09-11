@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
 
         locService = new Intent(context, LocationService.class);
         locService.putExtra(Constants.INTENT_LOCATION_WITH_STORING, false);
-        startService(locService);
+      //  startService(locService);
 
         mProgressDialog = new ProgressDialog(context);
         markerClick = new MarkerClick(context, markerDetailLayout);
@@ -200,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
     private void consume(){
 
         mqConsumer.setQueueName("");
-        mqConsumer.setExchange(Constants.MQ_EXCHANGE_NAME_MULTIPLE_BROADCAST);
-        mqConsumer.setRoutingkey(ROUTING_KEY);
+        mqConsumer.setExchange("gps.tester");
+        mqConsumer.setRoutingkey("gps.tester.broadcast");
         mqConsumer.subsribe();
         mqConsumer.setMessageListner(delivery -> {
             try {
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
                     isMessageReceived = true;
                     mProgressDialog.dismiss();
                 }
-                getMessage(message);
+             //   getMessage(message);
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -226,9 +226,8 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
 
     private void getMessage(String msg){
         try {
-            JSONObject object = new JSONObject(msg);
-            JSONArray jsonArray = object.getJSONArray("data");
-            if(object.getBoolean("success")){
+            JSONArray jsonArray = new JSONArray(msg);
+         //   if(object.getBoolean("success")){
                 if(isFirsInit) {
                     Log.i("test", "Init");
                     trackers = new Tracker[jsonArray.length()];
@@ -279,10 +278,10 @@ public class MainActivity extends AppCompatActivity implements BrokerCallback, T
                         isFirsInit = true;
                     }
                 }
-            }else {
+       //     }else {
                 // success == false
                 CommonAlerts.commonError(context, "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
-            }
+         //   }
 
         } catch (JSONException e) {
             e.printStackTrace();
